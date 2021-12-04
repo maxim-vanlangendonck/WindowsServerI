@@ -8,7 +8,7 @@
 5. 
 6. `Get-Command`
 7. `Get-*user*`
-8. `Get-PSProvidor`
+8. `Get-PSProvider`
 9. d
 10. d
 11. d
