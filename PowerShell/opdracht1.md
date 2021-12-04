@@ -3,7 +3,7 @@
 1. `Get-Help -Online`
 2. `Save-Help`
 3. `Get-Help Get-Alias`
-    De verplichte parameters voor het commando Get-Alias zijn geen
+    Er zijn geen verplichte parameters voor het cmdlet Get-Alias
 4. 
 5. 
 6. `Get-Command`
