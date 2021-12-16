@@ -745,3 +745,189 @@
 - subnetten zijn wa lastig te configureren:
     - ofwel moet je in elk subnet een DHCP server configureren
     - of je moet instellen dat DHCPDISCOVER doorgestuurd worden naar een ander netwerk, dit kan via een DHCP Relay. Een DHCP Relay ontvangt, en maakt  een nieuw DHCP berichten aan om te verzenden op een ander netwerk
+
+### DHCP en IPv6
+- voor dit OLOD enkel IPv4
+- binnen IPv6 zijn er 3 mogelijkheden om automatisch IPv6-adressen toe te kennen aan client
+  - Stateless Auto Address Configuration (SLAAC)
+  - Stateless DHCPv6
+  - Stateful DHCPv6
+
+# Hoofdstuk 9: Internet Information Services
+## 9.1 Webservers
+### Webserver
+- server Software:
+  - **doel**: antwoorden op vragen client over World Wide Web (WWW)
+  - kan één of meerdere websites bevatten (=hosten)
+  - verwerkt inkomende aanvragen over HTTP(S)
+- hoofdzakelijk voor ophalen (gegenereerde) HTML documenten
+  - maar ook tekst, afbeeldingen, CSS, scripts, en andere documenten
+  - werkt via het client-server model
+    - server = webserver
+    - client = browser (user agent)
+  - user agent (browser) stuurt vraag naar server om bepaalde inhoud
+    - webserver antwoordt met inhoud of stuurt foutboodschap
+    - user agent kan ook content verzenden naar server, bv. bij invullen formulier of opladen bestand
+  - Vroeger: eerder statische inhoud (=tekst)
+  - nu: hoofdzakelijk dynamische HTML
+    - via server-side scripting, bv. met NodeJS, PHP, ASP, JAVA, ...
+
+### Soorten webservers
+- vaak gebruikte web servers:
+  - apache
+    - open source
+    - bestaat voor meeste platformen
+  - ISS:
+    - Closed Source
+    - Microsoft
+    - enkel Windows
+    - Meest recente versie: IIS 10.0
+  - Nginx
+    - open source
+    - bestaat voor meeste platformen
+
+### Interne vs. externe webservers
+- de meeste webservers zijn extern (publiek) bereikbaar
+  - hebben publiek IP-adres (eventueel via proxyserver)
+  - meestal bereikbaar op poort 80 (HTTP) en/of 433 (HTTPS)
+- webserver kunnen echter ook gebruikt worden binnen intern netwerk
+  - zijn enkel toegankelijk vanaf het LAN netwerk (of via VPN)
+  - nuttig voor bv. een intranet website
+
+### Eerste webservers: statisch
+- webservers bestaan al sinds begin de jaren 90
+- de eerste webservers waren typisch statisch van aard
+- gebruikt voor ophalen van statische HTML-pagina's en andere bestanden van de server
+
+### Evolutie naar dynamisch
+- sinds midden 2000 zijn de meeste webservers eerder dynamisch
+  - opkomst van Web 2.0
+- hiervoor draaien programma's op de webservers die dynamisch inhoud van pagina's genereren
+  - via server-side scripting
+  - bv. PHP, Java, ASP.NET, nodeJS
+- vaak wordt hier ook een databank gebruikt voor ophalen van inhoud
+  - MySQL, MS SQL, mongoDB,...
+
+### Werking HTTP
+- Client stuurt HTTP GET request naar server via HTTP of HTTPS, typisch over TCP poort 80 of 443
+  - in bericht geeft client aan welk document (bestand) hij wil ophalen
+  - ddaarnaast wordt ook info over de client meegestuurd (OS, browser,..)
+- server antwoordt met HTTP response, dit antwoord bevat bv de inhoud van de HTML-pagina
+- naast de HTML-pagina zijn er echter vaak ook andere zaken nodig
+  - CSS
+  - afbeeldingen
+  - Javascript en andere scripts
+  - ...
+- Voor elk item zal een aparte HTTP GET request verstuurd worden
+- pagina wordt pas getoond in de client als alle nodige zaken ingeladen zijn
+
+### HTTP Requests
+- er zijn 7 verschillende HTTP requests die de client kan versturen
+  - **GET**: haal document op gespecificeerd door de URL
+  - **HEAD**: haal enkel de headers op voor het document
+  - **POST**: verstuur gegevens naar de server
+  - **PUT**: vervang gegevens op de server
+  - **DELETE**: verwijder document
+  - **TRACE**: retourneer de aanvraag, zodat client kan zien wat tussenliggende wijzigingen zijn
+  - **OPTIONS**: vraag mogelijkheden server
+  - **CONNECT**: vervang verbinding door TCP-/IP-tunnel (bv. voor HTTPS over HTTP)
+  - **PATCH**: gedeeltelijke wijziging van document 
+- in de praktijk zijn GET (ophalen document) en POST (verzenden data bv. via formulier) meest gebruikt
+
+### HTTP Response
+- het antwoord op een HTTP request, de HTTP response, bestaat uit:
+  - resultaat code (HTTP Status Code)
+  - Headervelden (eigenschappen van document)
+  - een lege regel
+  - een body (=de boodschap of inhoud van het document)
+- Resultaatcode bestaat uit minimaal drie cijfers
+- Headervelden geven onder andere aan wat je ophaalt (content type)
+- de body is optioneel
+
+### HTTP Resultaatcode
+- de resultaatcodes kunnen onderverdeeld worden in 6 types:
+  - **1xx**: informational message; typisch volgt nadien nog andere data
+  - **2xx**: Succes message; aanvraag succesvol afgehandeld
+  - **3xx**: Redirect naar een andere locatie, om welke reden ook
+  - **4xx**: Foutboodschap, veroorzaakt door client
+  - **5xx**: Foutboodschap, veroorzaakt door server
+  - **6xx**: Proxyfout
+
+### HTTPS
+- HTTPS zorgt voor extra beveiliging door het verkeer tussen de client en server in beide richtingen te encrypteren
+  - aanvankelijk via SSL (= secure sockets layer) protocol
+  - tegenwoordig hoofdzakelijk via TLS 1.2 (=transport layer security)
+- voor HTTPS wordt gebruikt gemaakt van certificaten die de publieke sleutel van de server bevat
+
+## 9.2 IIS
+### IIS
+- webserver voor Windows-machines
+  - eerste versie was option pack voor Windows NT
+  - Sinds Windows 2000 integraal onderdeel van OS
+  - Huidige versie: IIS 10.0 (Windows 10 en Windows Server 2016/2019)
+- werd (aanvankelijk) hoofdzakelijk gebruikt voor hosten van ASP.NET
+  - tegenwoordig ookmogelijk om bv. PHP te draaien
+  - eenvoudig te installeren via Microsoft Web Platform Installer
+- IIS is een server rol die je kan installeren via de Server Manager
+  - kan ook geïnstalleerd worden via PowerShell via Install-WindowsFeature
+  - wordt ook gebruikt door vele andere rollen
+  - kan is dus groot dat dit al geïnstalleerd is
+
+### Internet Informatie Services (IIS) Manager
+- applicatie voor beheren van IIS - openen kan via 
+  - server manager > tools > Internet Information Services (IIS) Manager
+
+- kan zowel gebruikt worden om IIS op het lokale toestel te configuren, of om een remote toestel te configureren
+- via IIS manager kan je sites aanmaken, certificaten configureren (HTTPS), bindings en handlers instellen, modules (de)activeren, de configuratie van websites aanpassen,...
+
+### Application Pools
+- laat toe om verschillende webapplicaties van elkaar af te schermen
+- voor elke application pool is er een apart proces dat draait op de server
+  - hierdoor zal een applicatie niet crashen als een andere webapplicatie (die een andere pool gebruikt) crasht 
+  - elke application pool kan ook andere instellingen hebben op vlak van security
+  - application pools zorgen dus voor een vorm van Multi-Tenancy
+- een application pool in IIS bestaat uit:
+  - een naam (voor de Default Website is dit DefaultAppPool)
+  - de versie van .NET CLR (bv. .NET CLR 4.0.30319)
+  - de 'managed pipeline mode: Integrated (default) of classic
+- je kan een application pool starten, stoppen en "recycle"
+  - recycle = afhandelen huidige requests, proces stoppen en nieuw proces starten
+  - kan nuttig zijn als een webapp vashthangt in bv. een oneindige lus
+  - recyclen komt dus neer (clean) herstarten van het proces
+
+### Sites
+- op 1 IIS serve kan je meerdere webapplicaties (=sites) simultaan hosten
+- bij aanmaken site moet je volgende zaken opgeven:
+  - naam site (puur gebruikt binnen IIS)
+  - Application Pool (al dan niet gedeeld met andere sites)
+  - Pad naar folder die bestanden van de webapplicatie bevat
+  - site binding
+
+### Site Bindings
+- via Site Bindings bepaal je hoe je de website kan bereiken
+  - welk protocol? HTTP of HTTPS?
+  - welk IP-adres? alle IP-adressen van server of enkel via specifiek IP-adres?
+  - welke poort? standaard 80, maar kan ook aangepaste poort zijn
+  - [Optioneel] Welke host name? (=URL)
+
+- indien meerdere websites "luisteren" op dezelfde interface, via hetzelfde protocol dan zal elke applicatie een andere poort moeten gebruiken
+  - clients maken verbinding via een bepaald IP-adres (of hosstname die vertaal wordt naar IP-adrs via DNS), en een poortnummer. De combinatie IP + poort is een **socket**
+  - De Default Website in IIS heeft standaard een binding voor alle IP-adressen (via wildcard) op poort 80 (zonder host name)
+  - wanneer meerdere websites draaien op dezelfde IIS server (elk op eigen poort) wordt typisch een proxy server (zoals nginx) gebruikt om inkomende aanvragen door te sturen naar de juiste IIS website
+
+### Een webapplictaie uitrollen
+1. voeg een nieuwe site toe in IIS, eventueel met nieuwe application pool
+2. installeer de nodige modules (bv. .NET Core Hosting Bundle)
+3. indien de applicatie gebruikmaakt van een databank: Maak de databank aan en voorzie een (databank) account die toegang heeft tot deze databank
+4. kopieer de bestanden van de webapplicatie naar de folder van de IIS site
+   1. vanuit IIS kan je rechtstreeks naar de juiste folder navigeren
+5. pas (indien nodig) de configuratiebestanden aan 
+6. test de website
+
+### IIS + DNS
+- we kunnen de website exteren bereiken via de FQDN van de server
+- vaak willen we echter andere URL's gebruiken
+  - hiervoor moeten we de nodige DNS records toevoegen aan de juiste zone
+  - dit kan via het toevoegen van een A-record of CNAME-record
+  - eventueel kan je ook gebruikmaken van een wildcard record
+
