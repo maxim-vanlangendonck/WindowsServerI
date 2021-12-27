@@ -1,8 +1,9 @@
-[String] $naam = Read-Host -Prompt "Geef de naam"
-$entry = Get-DnsClientCache
+[String] $naam = Read-Host -Prompt "Geef adres"
+$entry = Get-DnsClientCache -Entry $naam
 
-if($naam -eq $entry.RecordName){
-    Write-Host Get-DnsClientCache -Entry $naam
+if($entry){
+    $data = $entry.Data
+    Write-Host "$naam gevonden in DNS cache, de waarde is $data"
 } else {
-    Write-Host "Deze entry staat niet in de DNSClientCache"
+    Write-Host "$naam niet gevonden"
 }

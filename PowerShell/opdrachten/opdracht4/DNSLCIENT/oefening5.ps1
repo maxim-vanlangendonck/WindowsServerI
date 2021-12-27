@@ -1,5 +1,3 @@
-[String] $adres = Read-Host -Prompt "Geef een adres op"
-$ipadres = Resolve-DnsName $adres | Select-Object -Property IP4Address
-$TTL = Resolve-DnsName $adres | Select-Object -Property TTL
-echo $ipadres.IP4Address
-echo $TTL.TTL
+$naam = Read-Host "Geef adres"
+$answer = Resolve-DnsName -Name $naam -TypeA
+Write-Host "$naam heeft als IP adres $($answer.IP4Address) en TTL $($answer.TTL)"

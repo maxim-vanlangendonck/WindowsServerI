@@ -1,3 +1,8 @@
-for($i = 20; $i -le 29; $i++){
-    Add-DnsServerResourceRecordA -Name "laptop$i" -ZoneName "example.temp" -IPv4Address "192.168.10.$i"
+$zone = "example.temp"
+
+for($i = 20; $i -lt 30; $i++){
+    $naam = "laptop$i"
+    $ip = "192.168.10.$i"
+    Add-DnsServerResourceRecordA -Name $naam -ZoneName $zone -IPv4Address $ip
+    Write-Host "$naam -$ip toegevoegd"
 }

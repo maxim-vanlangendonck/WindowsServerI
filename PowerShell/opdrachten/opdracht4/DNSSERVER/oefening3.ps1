@@ -1,5 +1,5 @@
 [String]$zone = "example.temp"
 
-Add-DnsServerPrimaryZone -Name $zone -ZoneFile "example.temp.DNS"
+Add-DnsServerPrimaryZone -Name $zone -ZoneFile $zone
 
 Get-DnsServerResourceRecord -ZoneName $zone

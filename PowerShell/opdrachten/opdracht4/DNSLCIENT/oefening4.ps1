@@ -1,3 +1,5 @@
-Write-Host (Get-DnsClientCache).count
+$aantal = (Get-DnsClientCache | Measure-Object).Count
+Write-Host "Er zitten $aantal entries in de DNS Client cache"
 Clear-DnsClientCache
-Write-Host (Get-DnsClientCache).Count
+$aantal = (Get-DnsClientCache | Measure-Object).Count
+Write-Host "Er zitten $aantal entries in de DNS Client cache"

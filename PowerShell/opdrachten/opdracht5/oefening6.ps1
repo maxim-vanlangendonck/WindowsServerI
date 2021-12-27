@@ -1,0 +1,2 @@
+#Hiervoor kan je de optie -AccountPassword gebruiken. Voor het wachtwoord moet je wel eenSecure String gebruiken, bv:
+New-ADUser -Name "John Doe" -AccountPassword (ConvertTo-SecureString "Jon&Doe" -AsPlainText -force)
